@@ -22,14 +22,15 @@ const Navbar = () => {
       display: 'flex',
       justifyContent: 'space-between',
       alignItems: 'center',
-      padding: '20px 30px',
+      padding: '10px 20px',
       borderBottom: '1px solid #ddd',
-      backgroundColor: '#fff'
+      backgroundColor: '#fff',
+    
     }}>
       {/* Left: Greeting */}
       <div>
-        <h2 style={{ margin: 0 }}>Hi {username}!</h2>
-        <p style={{ margin: 0, color: '#666' }}>{getSubtitle()}</p>
+        <h2 style={{ margin: 0,fontSize: '18px' }}>Hi {username}!</h2>
+        <p style={{ margin: 0, color: '#666' , fontSize: '14px'}}>{getSubtitle()}</p>
       </div>
 
       {/* Right: Notification + Profile */}

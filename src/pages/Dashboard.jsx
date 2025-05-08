@@ -23,32 +23,43 @@ const COLORS = ['#00C49F', '#FFBB28', '#8884d8'];
 
 const Dashboard = () => {
   return (
-    <div style={{ display: 'flex', minHeight: '100vh' }}>
-      <Sidebar />
+    <div style={{ display: 'flex', minHeight: '100vh', width: '100%', overflow: 'hidden' }}>
+      <div style={{ width: '250px',flexShrink: 0, backgroundColor: '#f8f9fa' }}>
+        <Sidebar />
+      </div>
 
       {/* Right side with Navbar and Charts */}
       <div style={{ flex: 1, display: 'flex', flexDirection: 'column', backgroundColor: '#f0fefa' }}>
-        <Navbar />
-
+      <div style={{ flexShrink: 0 }}>
+          <Navbar />
+        </div>
         <div style={{
-          padding: '40px',
+          padding: '20px',
           display: 'flex',
           justifyContent: 'center',
           alignItems: 'flex-start',
+          flexWrap: 'wrap',
+          gap: '20px',
         }}>
           <div style={{
             display: 'flex',
-            flexDirection: 'row',
-            gap: '30px',
+            flexWrap: 'wrap',
+            // flexDirection: 'row',
+            gap: '20px',
+            justifyContent: 'center',
+            marginTop:'70px',
             padding: '20px',
             background: '#ffffff',
             border: '2px solid #e0e0e0',
             borderRadius: '16px',
             boxShadow: '0 4px 10px rgba(0, 0, 0, 0.1)',
-            width: '100%'
+            width: '100%',
+            maxWidth: '1200px',
+            
           }}>
             {/* Gender Details */}
-            <div style={{ flex: 1, padding: '20px', background: '#effdfa', borderRadius: '12px' }}>
+            <div style={{
+              flex: 1, padding: '20px', background: '#effdfa', borderRadius: '12px', minWidth: '280px',display: 'flex',flexDirection: 'column',justifyContent: 'center', alignItems: 'center', height: '100%',maxWidth: '500px',  margin: 'auto',   }}>
               <h2 style={{ textAlign: 'center', color: '#008037' }}>Gender Details</h2>
               <ResponsiveContainer width="100%" height={300}>
                 <PieChart>

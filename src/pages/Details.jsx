@@ -6,17 +6,15 @@ import Select from 'react-select';
 import axios from 'axios';
 import { useAuth } from '../contexts/AuthContext';
 
-// List of all Kerala districts
 const keralaDistricts = [
   "Alappuzha", "Ernakulam", "Idukki", "Kannur", "Kasaragod",
   "Kollam", "Kottayam", "Kozhikode", "Malappuram", "Palakkad",
   "Pathanamthitta", "Thiruvananthapuram", "Thrissur", "Wayanad"
 ];
-
 const districtOptions = keralaDistricts.map(d => ({ label: d, value: d }));
 
 const Details = () => {
-  const { updateImage } = useAuth();  // Use context to update image
+  const { updateImage } = useAuth();
   const [formData, setFormData] = useState({
     fullName: '',
     dob: '',
@@ -36,38 +34,37 @@ const Details = () => {
 
   const handleFileChange = (e) => {
     const file = e.target.files[0];
-    
+
     if (file) {
       const maxSizeMB = 1;
-      const fileSizeMB = file.size / (1024 * 1024); // Convert bytes to MB
-  
+      const fileSizeMB = file.size / (1024 * 1024);
+
       if (fileSizeMB > maxSizeMB) {
         alert("File size exceeds 1 MB. Please upload a smaller image.");
-        e.target.value = '';  // Reset the file input
+        e.target.value = '';
         setSelectedFile(null);
         setPreviewURL(null);
         return;
       }
-  
+
       setSelectedFile(file);
-  
+
       const reader = new FileReader();
       reader.onloadend = () => {
         setPreviewURL(reader.result);
-        updateImage(reader.result); // Update image in context
+        updateImage(reader.result);
       };
       reader.readAsDataURL(file);
     }
   };
 
   const handleSubmit = async () => {
-    // Phone number validation (only 10 digits allowed)
     const phoneRegex = /^\d{10}$/;
     if (!phoneRegex.test(formData.phone)) {
       setError("Phone number must be exactly 10 digits.");
       return;
     }
-    setError(""); // Clear error if validation is successful
+    setError("");
 
     const data = new FormData();
     data.append('fullName', formData.fullName);
@@ -76,7 +73,7 @@ const Details = () => {
     data.append('email', formData.email);
     data.append('district', formData.district);
     data.append('panchayat', formData.panchayat);
-  
+
     if (selectedFile) {
       data.append('image', selectedFile);
     }
@@ -90,19 +87,17 @@ const Details = () => {
 
       alert(response.data.message);
 
-      // ✅ Download the uploaded file
       if (selectedFile) {
         const fileURL = URL.createObjectURL(selectedFile);
         const link = document.createElement('a');
         link.href = fileURL;
         link.download = selectedFile.name;
-        document.body.appendChild(link); // append to DOM to work on all browsers
+        document.body.appendChild(link);
         link.click();
-        document.body.removeChild(link); // cleanup
-        URL.revokeObjectURL(fileURL); // release memory
+        document.body.removeChild(link);
+        URL.revokeObjectURL(fileURL);
       }
-  
-      // Optional: clear form or redirect
+
     } catch (error) {
       console.error("Error submitting form: ", error);
       alert("Please fill the form completely...");
@@ -110,18 +105,36 @@ const Details = () => {
   };
 
   return (
-    <div style={{ display: 'flex', height: '100vh', overflow: 'hidden', width: '100vw' }}>
-      <div style={{ width: '250px', backgroundColor: '#f8f9fa', overflow: 'hidden' }}>
+    <div style={{ display: 'flex', minHeight: '100vh', width: '100%', overflow: 'hidden' }}>
+      {/* Sidebar */}
+      <div style={{ width: '250px', flexShrink: 0, backgroundColor: '#f8f9fa' }}>
         <Sidebar />
       </div>
 
+      {/* Main Section */}
       <div style={{ flex: 1, display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
-        <div style={{ height: '90px', backgroundColor: '#fff', borderBottom: '1px solid #dee2e6' }}>
+        {/* Navbar */}
+        <div style={{ flexShrink: 0 }}>
           <Navbar />
         </div>
 
-        <div style={{ flex: 1, display: 'flex', padding: '20px', backgroundColor: '#f5f5f5', overflow: 'hidden', gap: '20px' }}>
-          <div style={{ flex: 1, overflow: 'hidden' }}>
+        {/* Content */}
+        <div
+          style={{
+            flex: 1,
+            overflowY: 'auto',
+            overflowX:'hidden',
+            display: 'flex',
+            flexWrap: 'wrap',
+            padding: '20px',
+            gap: '20px',
+            backgroundColor: '#f5f5f5',
+            boxSizing: 'border-box',
+            maxHeight: 'calc(100vh - 56px)',
+          }}
+        >
+          {/* Left Form Section */}
+          <div style={{ flex: '1 1 60%', minWidth: '300px' }}>
             <Card className="bg-success bg-opacity-10 p-4 border-0 shadow-sm h-100">
               <Form>
                 <Form.Group className="mb-3">
@@ -227,7 +240,8 @@ const Details = () => {
             </Card>
           </div>
 
-          <div style={{ width: '35%', minWidth: '280px', overflow: 'hidden' }}>
+          {/* Right Preview Section */}
+          <div style={{ flex: '1 1 35%', minWidth: '280px' }}>
             <Card className="p-3 bg-light border-0 shadow-sm text-center h-100 d-flex flex-column justify-content-center">
               <div className="mb-3">
                 <img
