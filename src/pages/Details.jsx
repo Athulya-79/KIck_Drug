@@ -79,7 +79,7 @@ const Details = () => {
     }
 
     try {
-      const response = await axios.post('http://localhost:3000/api/form/submit', data, {
+      const response = await axios.post(`${SERVER_URL}/api/form/submit`, data, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
